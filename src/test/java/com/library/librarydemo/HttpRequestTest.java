@@ -5,7 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HttpRequestTest {
@@ -17,6 +18,7 @@ public class HttpRequestTest {
 
     @Test
     public void willReturnDefaultMessage() {
-        assertEquals(EXPECTED_PORT, port);
+        assertThat(this.restTemplate.getForObject("http://localhost:"+port+"/h2-console",
+                String.class)).contains("Welcome to H2");
     }
 }
